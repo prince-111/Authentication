@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
+const noteRoutes = require("./routes/noteRoutes");
 
 const app = express();
 
@@ -18,6 +19,10 @@ const PORT = process.env.PORT || 5000;
 app.get('/', (req, res)=>{
     res.send("Hello From the Authentication Server!");
 })
+
+
+app.use("/api/v1/notes", noteRoutes);
+
 
 // Mongo Connection
 const URI = process.env.MONGODB_URI;
