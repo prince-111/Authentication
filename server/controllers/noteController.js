@@ -32,11 +32,11 @@ exports.getNotes = async (req, res) => {
       .skip(skipIndex);
 
     res.json({
-      notes,
-      totalRecords,
-      totalPages,
-      currentPage: page,
-      recordsPerPage: limit,
+        totalRecords,
+        totalPages,
+        currentPage: page,
+        recordsPerPage: limit,
+        notes,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -56,3 +56,23 @@ exports.getNotesById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+// Update a note
+exports.updateNote = async (req, res) => {
+  try {
+    const { heading, description } = req.body;
+    const note = await Note.findOneAndUpdate(
+      { _id: req.params.id },
+      { heading, description },
+      { new: true, runValidators: true }
+    );
+    if (!note) {
+      return res.status(404).json({ message: 'Note not found' });
+    }
+    res.json(note);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
