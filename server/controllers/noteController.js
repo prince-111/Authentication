@@ -110,3 +110,19 @@ exports.softDeleteNote = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// Hard delete a note
+exports.hardDeleteNote = async (req, res) => {
+  try {
+    const note = await Note.findByIdAndDelete(req.params.id);
+
+    if (!note) {
+      return res.status(404).json({ message: "Note not found" });
+    }
+
+    res.json({ message: "Note deleted successfully", note });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
