@@ -145,3 +145,37 @@ exports.restoreNote = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.getDeletedNotes = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skipIndex = (page - 1) * limit;
+
+    // Filter for soft-deleted notes
+    const filter = { isDeleted: true };
+
+    // Get total count of deleted notes
+    const totalRecords = await Note.countDocuments(filter);
+    const totalPages = Math.ceil(totalRecords / limit);
+
+    // Fetch deleted notes with pagination
+    const deletedNotes = await Note.find(filter)
+      .sort({ deletedAt: -1 }) // Sort by deletion date, most recent first
+      .skip(skipIndex)
+      .limit(limit);
+
+    res.json({
+        totalRecords,
+        totalPages,
+        currentPage: page,      
+        recordsPerPage: limit,
+        notes: deletedNotes,
+    });
+  } catch (error) {
+    console.error("Error in getDeletedNotes:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching deleted notes", error: error.message });
+  }
+};
