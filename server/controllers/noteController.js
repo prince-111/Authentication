@@ -126,3 +126,22 @@ exports.hardDeleteNote = async (req, res) => {
   }
 };
 
+// Restore a soft-deleted note
+exports.restoreNote = async (req, res) => {
+  try {
+    const note = await Note.findOneAndUpdate(
+      { _id: req.params.id, isDeleted: true },
+      { isDeleted: false, deletedAt: null },
+      { new: true }
+    );
+
+    if (!note) {
+      return res
+        .status(404)
+        .json({ message: "Note not found or already restored" });
+    }
+    res.json({ message: "note restored successfully", note });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
