@@ -3,6 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const noteController = require("../controllers/noteController");
+const auth = require("../middleware/authMiddleware");
 
 /**
  * @swagger
@@ -38,11 +39,11 @@ const noteController = require("../controllers/noteController");
  *               items:
  *                 $ref: '#/components/schemas/Note'
  */
-router.get("/", noteController.getNotes);
+router.get("/", auth, noteController.getNotes);
 
 /**
  * @swagger
- * /notes:
+ * /notes/createNote:
  *   post:
  *     summary: Create a new note
  *     tags: [Notes 📔]
@@ -60,7 +61,7 @@ router.get("/", noteController.getNotes);
  *             schema:
  *               $ref: '#/components/schemas/Note'
  */
-router.post("/createNote", noteController.createNote);
+router.post("/createNote", auth, noteController.createNote);
 
 /**
  * @swagger
@@ -78,7 +79,7 @@ router.post("/createNote", noteController.createNote);
  *               items:
  *                 $ref: '#/components/schemas/Note'
  */
-router.get("/trash", noteController.getDeletedNotes);
+router.get("/trash", auth, noteController.getDeletedNotes);
 
 /**
  * @swagger
@@ -103,7 +104,7 @@ router.get("/trash", noteController.getDeletedNotes);
  *       404:
  *         description: The note was not found
  */
-router.get("/:id", noteController.getNotesById);
+router.get("/:id", auth, noteController.getNotesById);
 
 /**
  * @swagger
@@ -134,7 +135,7 @@ router.get("/:id", noteController.getNotesById);
  *       404:
  *         description: The note was not found
  */
-router.put("/:id", noteController.updateNote);
+router.put("/:id", auth, noteController.updateNote);
 
 /**
  * @swagger
@@ -155,7 +156,7 @@ router.put("/:id", noteController.updateNote);
  *       404:
  *         description: The note was not found
  */
-router.delete("/soft/:id", noteController.softDeleteNote);
+router.delete("/soft/:id", auth, noteController.softDeleteNote);
 
 /**
  * @swagger
@@ -176,7 +177,7 @@ router.delete("/soft/:id", noteController.softDeleteNote);
  *       404:
  *         description: The note was not found
  */
-router.delete("/hard/:id", noteController.hardDeleteNote);
+router.delete("/hard/:id", auth, noteController.hardDeleteNote);
 
 /**
  * @swagger
@@ -197,6 +198,6 @@ router.delete("/hard/:id", noteController.hardDeleteNote);
  *       404:
  *         description: The note was not found
  */
-router.post("/restore/:id", noteController.restoreNote);
+router.post("/restore/:id", auth, noteController.restoreNote);
 
 module.exports = router;
