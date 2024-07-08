@@ -23,22 +23,78 @@ const auth = require("../middleware/authMiddleware");
  *           description: The description of the note
  */
 
+
 /**
  * @swagger
  * /notes:
  *   get:
- *     summary: Returns a list of notes
+ *     summary: Retrieve all notes
  *     tags: [Notes 📔]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: The page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: The number of records per page
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *           default: ''
+ *         description: The search keyword to filter notes by heading or description
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: The list of notes
+ *         description: Notes retrieved successfully
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Note'
+ *               type: object
+ *               properties:
+ *                 totalRecords:
+ *                   type: integer
+ *                 totalPages:
+ *                   type: integer
+ *                 currentPage:
+ *                   type: integer
+ *                 recordsPerPage:
+ *                   type: integer
+ *                 notes:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                       heading:
+ *                         type: string
+ *                       description:
+ *                         type: string
+ *                       user:
+ *                         type: string
+ *                       isDeleted:
+ *                         type: boolean
+ *                       deletedAt:
+ *                         type: string
+ *                         format: date-time
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                       updatedAt:
+ *                         type: string
+ *                         format: date-time
+ *       500:
+ *         description: Error retrieving notes
  */
+
 router.get("/", auth, noteController.getNotes);
 
 /**
@@ -199,5 +255,60 @@ router.delete("/hard/:id", auth, noteController.hardDeleteNote);
  *         description: The note was not found
  */
 router.post("/restore/:id", auth, noteController.restoreNote);
+
+
+/**
+ * @swagger
+ * /notes/getNotesByUser/{userId}:
+ *   get:
+ *     summary: Retrieve all notes for a given user ID
+ *     tags: [Notes 📔]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user ID
+ *     responses:
+ *       200:
+ *         description: Notes retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 notes:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                       heading:
+ *                         type: string
+ *                       description:
+ *                         type: string
+ *                       user:
+ *                         type: string
+ *                       isDeleted:
+ *                         type: boolean
+ *                       deletedAt:
+ *                         type: string
+ *                         format: date-time
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                       updatedAt:
+ *                         type: string
+ *                         format: date-time
+ *       404:
+ *         description: No notes found for this user
+ *       500:
+ *         description: Error retrieving notes
+ */
+router.get("/getNotesByUser/:userId", auth, noteController.getNotesByUser);
 
 module.exports = router;
