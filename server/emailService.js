@@ -37,4 +37,29 @@ exports.sendVerificationEmail = async (email, verificationToken) => {
   }
 };
 
+// New function for sending password reset email
+exports.sendPasswordResetEmail = async (email, resetToken) => {
+  const resetLink = `${Application_URL}/reset-password?token=${resetToken}`;
 
+  const mailOptions = {
+    from: process.env.USER_EMAIL,
+    to: email,
+    subject: "Password Reset Request",
+    html: `
+      <h1>Password Reset Request</h1>
+      <p>You have requested to reset your password. Please click the link below to reset your password:</p>
+      <a href="${resetLink}">${resetLink}</a>
+      <p>This link will expire in 15 minutes.</p>
+      <p>If you didn't request this, please ignore this email and your password will remain unchanged.</p>
+    `,
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Password reset email sent:", info.response);
+    return info;
+  } catch (error) {
+    console.error("Error sending password reset email:", error);
+    throw error;
+  }
+};
