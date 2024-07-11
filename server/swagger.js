@@ -6,9 +6,9 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Full Auth and CRUD",
+      title: "Twilight Thoughts API 🍂 ",
       version: "1.0.0",
-      description: "A simple Notes API",
+      description: "Stellar Notes API: Capture Your Thoughts, Secure Your Data, Your Notes Authenticated and Protected. 🎧 ",
     },
     components: {
       securitySchemes: {
