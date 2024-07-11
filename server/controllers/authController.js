@@ -2,19 +2,33 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const emailService = require("../emailService");
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 
+
+//  Register user
 exports.register = async (req, res) => {
   try {
-    const { username, email, password, role } = req.body;
+    const { username, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
+    const verificationToken = crypto.randomBytes(32).toString("hex");
     const user = new User({
       username,
       email,
       password: hashedPassword,
-      role: role || "User",
+      verificationToken,
     });
     await user.save();
-    res.status(201).json({ message: "User registered successfully" });
+     
+    //* Send verification email
+    await emailService.sendVerificationEmail(email, verificationToken);
+
+    res.status(201).json({
+      message: "User registered successfully. Please verify your email.",
+      user,
+    });
+    
   } catch (error) {
     res
       .status(500)
@@ -22,6 +36,29 @@ exports.register = async (req, res) => {
   }
 };
 
+
+// Verify Email
+exports.verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.query;
+    const user = await User.findOne({ verificationToken: token });
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid token or user not found" });
+    }
+
+    user.isVerifiedToken = true;
+    user.verificationToken = null;
+    await user.save();
+
+    res.json({ message: "Email verified successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Email verification failed", details: error.message });
+  }
+};
+
+
+// login
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -58,3 +95,4 @@ exports.login = async (req, res) => {
     res.status(500).json({ error: "Login failed", details: error.message });
   }
 };
+
