@@ -5,21 +5,24 @@ const auth = require("../middleware/authMiddleware");
 
 /**
  * @swagger
- * /users:
+ *  /users:
  *   get:
- *     summary: Returns a list of user
+ *     summary: Retrieve a list of users
  *     tags: [Users 👦]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: The list of user
+ *         description: A list of users
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/User'
+ *                 $ref: '#/components/schemas/Users'
+ *       500:
+ *         description: Internal server error
  */
-
 router.get("/", auth, userController.getUsers);
 
 module.exports = router;
