@@ -96,3 +96,16 @@ exports.login = async (req, res) => {
   }
 };
 
+
+//* logout
+exports.logout = async (req, res) => {
+  try {
+    res.clearCookie("token");
+    res.status(200).json({ message: "Logout successful" , res});
+  } catch (error) {
+    res.status(500).json({ message: "Logout failed", error: error.message });
+  }
+}
+
+
+
