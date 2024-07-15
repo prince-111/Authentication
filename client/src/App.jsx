@@ -1,13 +1,14 @@
 import "./App.css";
-import dotView from "./assets/dot-grid.svg";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 
 function App() {
   return (
     <>
-      <div className="bg-[url('./assets/dot-grid.svg')] bg-repeat h-screen">
-      <Home />
-      </div>
+      <Navbar/>
+      <Home/>
+      <Footer />
     </>
   );
 }
