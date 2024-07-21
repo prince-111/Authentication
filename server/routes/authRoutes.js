@@ -111,4 +111,83 @@ router.get('/verify-email', authController.verifyEmail);
 
 
 
+// * Forget Password
+/**
+ * @swagger
+ * /forgot-password:
+ *   post:
+ *     summary: Send a password reset link to a user's email
+ *     tags: [Auth🪴]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *     responses:
+ *       200:
+ *         description: Password reset email sent successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error
+ */
+router.post('/forgot-password', authController.forgotPassword);
+
+
+//* Reset Password
+/**
+ * @swagger
+ * /reset-password:
+ *   post:
+ *     summary: Reset password
+ *     tags: [Auth🪴]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - newPassword
+ *             properties:
+ *               newPassword:
+ *                 type: string
+ *                 format: password
+ *     responses:
+ *       200:
+ *         description: Password reset successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       400:
+ *         description: Invalid or expired token
+ *       401:
+ *         description: Authorization token is required or invalid
+ *       500:
+ *         description: Server error
+ */
+
+router.post('/reset-password', authController.resetPassword);
+
+
 module.exports = router;
