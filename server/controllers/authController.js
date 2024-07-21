@@ -190,3 +190,50 @@ exports.resetPassword = async (req, res) => {
   }
 };
 
+
+
+// Forgot Password
+// Send a password reset link to a user's email
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Generate reset token
+    const resetToken = crypto.randomBytes(20).toString("hex");
+
+    // Create a JWT with the reset token
+    const resetJWT = jwt.sign(
+      { userId: user._id, resetToken },
+      process.env.JWT_SECRET,
+      { expiresIn: "15m" } // Token expires in 15 minutes
+    );
+
+    // Save hashed version of reset token to user
+    user.resetPasswordToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+    user.resetPasswordExpire = Date.now() + 15 * 60 * 1000; // 15 minutes
+    await user.save();
+
+    console.log("User after saving reset token:", user);
+    console.log("Generated JWT:", resetJWT);
+
+    // Send email
+    await emailService.sendPasswordResetEmail(user.email, resetJWT);
+
+    res.status(200).json({ message: "Password reset email sent" });
+  } catch (error) {
+    console.error("Forgot password error:", error);
+    res
+      .status(500)
+      .json({ message: "Could not send reset email", error: error.message });
+  }
+};
+
