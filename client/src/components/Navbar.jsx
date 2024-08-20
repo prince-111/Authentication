@@ -6,10 +6,10 @@ const Navbar = () => {
     <div>
       <nav className=" bg-gray-50 border-gray-200 dark:bg-gray-900 shadow-lg">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a
+          {/* <a
             href="https://flowbite.com/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
-          >
+          > */}
             {/* <img
               src="https://flowbite.com/docs/images/logo.svg"
               className="h-8"
@@ -18,7 +18,7 @@ const Navbar = () => {
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               <Link to="/">Notes</Link>
             </span>
-          </a>
+          {/* </a> */}
           <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             <span className="mr-5">
               <DarkThemeToggle className="border-none focus:bg-none" />
