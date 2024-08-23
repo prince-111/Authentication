@@ -3,25 +3,29 @@ import { useNavigate } from "react-router-dom";
 import { register } from "../services/AuthApi";
 
 const Register = () => {
-   const [credentials, setCredentials] = useState({username:"", last_name: "", email: "", password: "", confirm_password: ""});
-   const [error, setError] = useState(null);
-   const [isLoading, setIsLoading] = useState(false);
-   const navigate = useNavigate();
+  const [credentials, setCredentials] = useState({
+    username: "",
+    last_name: "",
+    email: "",
+    password: "",
+    confirm_password: "",
+  });
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-   const handleChange = useCallback(e=>{
-     const { name, value } = e.target;
-     setCredentials(prev => ({ ...prev, [name]: value }));
-   })
+  const handleChange = useCallback(e => {
+    const { name, value } = e.target;
+    setCredentials(prev => ({ ...prev, [name]: value }));
+  });
 
-   const handleSubmit = useCallback(
-    async e=>{
+  const handleSubmit = useCallback(
+    async e => {
       e.preventDefault();
       setError(null);
       setIsLoading(true);
 
       try {
-
-
         const userData = await register(credentials);
         console.log("Register successful:", userData);
         navigate("/login");
@@ -31,9 +35,9 @@ const Register = () => {
       } finally {
         setIsLoading(false);
       }
-      },
-     [credentials, navigate]
-    )
+    },
+    [credentials, navigate]
+  );
 
   return (
     <>
@@ -154,6 +158,6 @@ const Register = () => {
       </div>
     </>
   );
-}
+};
 
-export default Register
+export default Register;
