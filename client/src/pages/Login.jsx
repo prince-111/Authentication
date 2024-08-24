@@ -34,77 +34,173 @@ const Login = () => {
      );
 
   return (
-    <div className="grid place-content-center w-full h-screen">
-      <div className="grid place-items-center p-6 bg-white border-2 border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-        <form onSubmit={handleSubmit} aria-label="Login form">
-          <h2 className="mb-8 text-2xl font-bold">Login</h2>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="email"
-              name="email"
-              value={credentials.email}
-              onChange={handleChange}
-              id="floating_email"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-              aria-label="Email address"
-            />
-            <label
-              htmlFor="floating_email"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+    <>
+    <div className=" flex justify-center items-center dark:bg-gray-900">
+    <div className="grid gap-8">
+      <div
+        id="back-div"
+        className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-[26px] m-4"
+      >
+        <div
+          className="border-[20px] border-transparent rounded-[20px] dark:bg-gray-900 bg-white shadow-lg xl:p-10 2xl:p-10 lg:p-10 md:p-10 sm:p-2 m-2"
+        >
+          <h1 className="pt-8 pb-6 font-bold dark:text-gray-400 text-5xl text-center cursor-default">
+            Log in
+          </h1>
+          <form action="#" method="post" className="space-y-4">
+            <div>
+              <label htmlFor="email" className="mb-2  dark:text-gray-400 text-lg">Email</label>
+              <input
+                id="email"
+                className="border p-3 dark:bg-indigo-700 dark:text-gray-300  dark:border-gray-700 shadow-md placeholder:text-base focus:scale-105 ease-in-out duration-300 border-gray-300 rounded-lg w-full"
+                type="email"
+                placeholder="Email"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="mb-2 dark:text-gray-400 text-lg">Password</label>
+              <input
+                id="password"
+                className="border p-3 shadow-md dark:bg-indigo-700 dark:text-gray-300  dark:border-gray-700 placeholder:text-base focus:scale-105 ease-in-out duration-300 border-gray-300 rounded-lg w-full"
+                type="password"
+                placeholder="Password"
+                required
+              />
+            </div>
+            <a
+              className="group text-blue-400 transition-all duration-100 ease-in-out"
+              href="#"
             >
-              Email address
-            </label>
-          </div>
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="password"
-              name="password"
-              value={credentials.password}
-              onChange={handleChange}
-              id="floating_password"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-              aria-label="Password"
-            />
-            <label
-              htmlFor="floating_password"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              <span
+                className="bg-left-bottom bg-gradient-to-r text-sm from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
+              >
+                Forget your password?
+              </span>
+            </a>
+            <button
+              className="bg-gradient-to-r dark:text-gray-300 from-blue-500 to-purple-500 shadow-lg mt-6 p-2 text-white rounded-lg w-full hover:scale-105 hover:from-purple-500 hover:to-blue-500 transition duration-300 ease-in-out"
+              type="submit"
             >
-              Password
-            </label>
+              LOG IN
+            </button>
+          </form>
+          <div className="flex flex-col mt-4 items-center justify-center text-sm">
+            <h3 className="dark:text-gray-300">
+              Don't have an account?
+              <a
+                className="group text-blue-400 transition-all duration-100 ease-in-out"
+                href="#"
+              >
+                <span
+                  className="bg-left-bottom bg-gradient-to-r from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
+                >
+                  Sign Up
+                </span>
+              </a>
+            </h3>
           </div>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50"
+          <div
+            id="third-party-auth"
+            className="flex items-center justify-center mt-5 flex-wrap"
           >
-            {isLoading ? "Logging in..." : "Log In"}
-          </button>
-          {error && (
-            <p
-              className="mt-2 text-sm text-red-600 dark:text-red-500"
-              role="alert"
+            <button
+              href="#"
+              className="hover:scale-105 ease-in-out duration-300 shadow-lg p-2 rounded-lg m-1"
             >
-              {error}
+              <img
+                className="max-w-[25px]"
+                src="https://ucarecdn.com/8f25a2ba-bdcf-4ff1-b596-088f330416ef/"
+                alt="Google"
+              />
+            </button>
+            <button
+              href="#"
+              className="hover:scale-105 ease-in-out duration-300 shadow-lg p-2 rounded-lg m-1"
+            >
+              <img
+                className="max-w-[25px]"
+                src="https://ucarecdn.com/95eebb9c-85cf-4d12-942f-3c40d7044dc6/"
+                alt="Linkedin"
+              />
+            </button>
+            <button
+              href="#"
+              className="hover:scale-105 ease-in-out duration-300 shadow-lg p-2 rounded-lg m-1"
+            >
+              <img
+                className="max-w-[25px] filter dark:invert"
+                src="https://ucarecdn.com/be5b0ffd-85e8-4639-83a6-5162dfa15a16/"
+                alt="Github"
+              />
+            </button>
+            <button
+              href="#"
+              className="hover:scale-105 ease-in-out duration-300 shadow-lg p-2 rounded-lg m-1"
+            >
+              <img
+                className="max-w-[25px]"
+                src="https://ucarecdn.com/6f56c0f1-c9c0-4d72-b44d-51a79ff38ea9/"
+                alt="Facebook"
+              />
+            </button>
+            <button
+              href="#"
+              className="hover:scale-105 ease-in-out duration-300 shadow-lg p-2 rounded-lg m-1"
+            >
+              <img
+                className="max-w-[25px] dark:gray-100"
+                src="https://ucarecdn.com/82d7ca0a-c380-44c4-ba24-658723e2ab07/"
+                alt="twitter"
+              />
+            </button>
+
+            <button
+              href="#"
+              className="hover:scale-105 ease-in-out duration-300 shadow-lg p-2 rounded-lg m-1"
+            >
+              <img
+                className="max-w-[25px]"
+                src="https://ucarecdn.com/3277d952-8e21-4aad-a2b7-d484dad531fb/"
+                alt="apple"
+              />
+            </button>
+          </div>
+
+          <div
+            className="text-gray-500 flex text-center flex-col mt-4 items-center text-sm"
+          >
+            <p className="cursor-default">
+              By signing in, you agree to our
+              <a
+                className="group text-blue-400 transition-all duration-100 ease-in-out"
+                href="#"
+              >
+                <span
+                  className="cursor-pointer bg-left-bottom bg-gradient-to-r from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
+                >
+                  Terms
+                </span>
+              </a>
+              and
+              <a
+                className="group text-blue-400 transition-all duration-100 ease-in-out"
+                href="#"
+              >
+                <span
+                  className="cursor-pointer bg-left-bottom bg-gradient-to-r from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out"
+                >
+                  Privacy Policy
+                </span>
+              </a>
             </p>
-          )}
-        </form>
-
-        <div className="mt-4">
-          <span>Don't have an account?</span>
-          <Link
-            to="/register"
-            className="pl-4 underline text-blue-600 hover:text-blue-800"
-          >
-            Register
-          </Link>
+          </div>
         </div>
       </div>
+      </div>
     </div>
+    </>
   );
 };
 
