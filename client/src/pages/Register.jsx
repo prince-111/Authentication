@@ -61,7 +61,7 @@ const Register = () => {
                   </label>
                   <input
                     id="username"
-                    className="border p-3 dark:bg-indigo-700 dark:text-gray-300  dark:border-gray-700 shadow-md placeholder:text-base focus:scale-105 ease-in-out duration-300 border-gray-300 rounded-lg w-full"
+                    className="border p-3 dark:bg-indigo-300 dark:text-gray-300  dark:border-gray-700 shadow-md placeholder:text-base focus:scale-105 ease-in-out duration-300 border-gray-300 rounded-lg w-full"
                     type="text"
                     placeholder="Username"
                     name="username"
@@ -80,7 +80,7 @@ const Register = () => {
                   </label>
                   <input
                     id="email"
-                    className="border p-3 dark:bg-indigo-700 dark:text-gray-300  dark:border-gray-700 shadow-md placeholder:text-base focus:scale-105 ease-in-out duration-300 border-gray-300 rounded-lg w-full"
+                    className="border p-3 dark:bg-indigo-300 dark:text-gray-300  dark:border-gray-700 shadow-md placeholder:text-base focus:scale-105 ease-in-out duration-300 border-gray-300 rounded-lg w-full"
                     type="email"
                     placeholder="Email"
                     name="email"
@@ -98,7 +98,7 @@ const Register = () => {
                   </label>
                   <input
                     id="password"
-                    className="border p-3 shadow-md dark:bg-indigo-700 dark:text-gray-300  dark:border-gray-700 placeholder:text-base focus:scale-105 ease-in-out duration-300 border-gray-300 rounded-lg w-full"
+                    className="border p-3 shadow-md dark:bg-indigo-300 dark:text-gray-300  dark:border-gray-700 placeholder:text-base focus:scale-105 ease-in-out duration-300 border-gray-300 rounded-lg w-full"
                     type="password"
                     placeholder="Password"
                     name="password"
@@ -113,7 +113,7 @@ const Register = () => {
                   type="submit"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Logging in..." : "Log In"}
+                  {isLoading ? "Register in..." : "Register"}
                 </button>
                 </div>
                 {error && (
@@ -127,13 +127,13 @@ const Register = () => {
               </form>
               <div className="flex flex-col mt-4 items-center justify-center text-sm">
                 <h3 className="dark:text-gray-300">
-                  Don't have an account?{" "}
+                  I have an account?{" "}
                   <span
                     className="group text-blue-400 transition-all duration-100 ease-in-out"
                     href="#"
                   >
                     <span className="bg-left-bottom bg-gradient-to-r from-blue-400 to-blue-400 bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
-                      <Link to="/register">Sign Up</Link>
+                      <Link to="/login">Sign Up</Link>
                     </span>
                   </span>
                 </h3>
