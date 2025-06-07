@@ -191,6 +191,164 @@ exports.resetPassword = async (req, res) => {
 };
 
 
+exports.resetPassword = async (req, res) => {
+  try {
+    const { authorization } = req.headers;
+    const { newPassword } = req.body;
+
+    console.log("Authorization header:", authorization);
+
+    if (!authorization) {
+      return res
+        .status(401)
+        .json({ message: "Authorization token is required" });
+    }
+
+    const token = authorization.split(" ")[1];
+
+    console.log("Extracted token:", token);
+
+    if (!token) {
+      return res.status(400).json({ message: "Reset token is required" });
+    }
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log("Decoded token:", decoded);
+    } catch (error) {
+      console.error("Token verification failed:", error.message);
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    // First, try to find the user without the resetPasswordExpire condition
+    let user = await User.findOne({ _id: decoded.userId });
+    console.log("User found by ID:", user ? "Yes" : "No");
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    console.log("User resetPasswordExpire:", user.resetPasswordExpire);
+    console.log("Current time:", new Date());
+
+    // Now check if the reset password hasn't expired
+    if (user.resetPasswordExpire && user.resetPasswordExpire <= Date.now()) {
+      return res
+        .status(400)
+        .json({ message: "Password reset token has expired" });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save();
+
+    res.json({ message: "Password reset successful" });
+  } catch (error) {
+    console.error("Reset password error:", error);
+    res
+      .status(500)
+      .json({ message: "Reset password failed", error: error.message });
+  }
+};
+
+// exports.resetPassword = async (req, res) => {
+//   try {
+//     const { authorization } = req.headers;
+//     const { newPassword } = req.body;
+
+//     console.log("Authorization header:", authorization);
+
+//     if (!authorization) {
+//       return res
+//         .status(401)
+//         .json({ message: "Authorization token is required" });
+//     }
+
+//     const token = authorization.split(" ")[1]; // Extract token from "Bearer <token>"
+
+//     console.log("Received token:", token);
+
+//     let decoded;
+//     try {
+//       decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     } catch (error) {
+//       console.error("Token verification failed:", error.message);
+//       return res.status(401).json({ message: "Invalid or expired token" });
+//     }
+
+//     console.log("Decoded token:", decoded);
+
+//     const user = await User.findById(decoded.userId);
+
+//     console.log("User found:", user ? "Yes" : "No");
+
+//     if (!user) {
+//       return res.status(400).json({ message: "User not found" });
+//     }
+
+//     user.password = await bcrypt.hash(newPassword, 10);
+//     await user.save();
+
+//     res.json({ message: "Password reset successful" });
+//   } catch (error) {
+//     console.error("Reset password error:", error);
+//     res
+//       .status(500)
+//       .json({ message: "Reset password failed", error: error.message });
+//   }
+// };
+
+
+// exports.resetPassword = async(req, res)=>{
+//   try {
+//     // const {token} = req.query; // it not working remove
+//     const {authorization} = req.headers; // it working
+//     const {newPassword} = req.body;
+
+
+//     if(!authorization){
+//       return res.status(401).json({message:"Authorization token is required"});
+//     }
+
+//     const token = authorization.split(" ")[1];
+
+//     console.log("tokenTest", token);
+//     console.log("newPassword", newPassword);
+
+//     console.log("Query:", {
+//       resetPasswordToken: token,
+//       resetPasswordExpire: { $gt: Date.now() },
+//     });
+
+//     const user = await User.findOne({
+//       resetPasswordToken: token,
+//       resetPasswordExpire: { $gt: Date.now() }
+//     });
+
+//      console.log("User found:", user ? "Yes" : "No");
+//      if (user) {
+//        console.log("Token expiration:", user.resetPasswordExpire);
+//        console.log("Current time:", new Date());
+//      }
+
+//     if (!user) {
+//       return res.status(400).json({ message: "Invalid or expired token" });
+//     }
+    
+
+//     user.password = await bcrypt.hash(newPassword, 10);
+//     user.resetPasswordToken = null;
+//     user.resetPasswordExpire = null;
+//     await user.save();
+    
+//     res.json({ message: "Password reset successful" , user});
+//   } catch (error) {
+//     res.status(500).json({ message: "Reset password failed", error: error.message });
+//   }
+// }
+
 
 // Forgot Password
 // Send a password reset link to a user's email
